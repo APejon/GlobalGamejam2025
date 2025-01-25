@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameplayShot : MonoBehaviour
@@ -11,6 +12,36 @@ public class GameplayShot : MonoBehaviour
 
     private float smoothTime = 0.5f;    // Smooth transition for camera movement
     private Vector3 velocity;          // Internal velocity for smoothing
+
+    public float slowMotionFactor = 0.2f; // How slow the game should go (e.g., 20% speed)
+    public float slowMotionDuration = 2f; // How long the game stays in slow motion
+    private bool isSlowMotionActive = false;
+
+    void Update()
+    {
+        // Activate slow motion with a key press (e.g., "S")
+        if (Input.GetKeyDown(KeyCode.P) && !isSlowMotionActive)
+        {
+            StartCoroutine(ActivateSlowMotion());
+        }
+    }
+
+    private IEnumerator ActivateSlowMotion()
+    {
+        isSlowMotionActive = true;
+
+        // Set the game to slow motion
+        Time.timeScale = slowMotionFactor;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale; // Maintain physics consistency
+
+        // Wait for the slow motion duration
+        yield return new WaitForSecondsRealtime(slowMotionDuration);
+
+        // Reset time back to normal
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f; // Reset fixed delta time
+        isSlowMotionActive = false;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void LateUpdate()

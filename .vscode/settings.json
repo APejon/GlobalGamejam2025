@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Bubble Blast Brutality.sln"
+    "dotnet.defaultSolution": "GlobalGamejam2025.sln"
 }
